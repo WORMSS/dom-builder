@@ -44,14 +44,16 @@ export const StyleRules = new Proxy(function StyleRules() {} as unknown as Style
           case 'length':
             return map.size;
           case 'setProperty':
-            return (name: string, value: string) => {
+            return (name: string, value: string | undefined) => {
+              value = value?.trim();
               if (value) map.set(name, value);
               return me;
             };
           case 'utils':
             return utils;
           default:
-            return (value: string) => {
+            return (value: string | undefined) => {
+              value = value?.trim();
               if (value) map.set(paramCase(prop), value);
               return me;
             };
@@ -68,7 +70,14 @@ type LinearGradiantDir =
   | `${number}turn`;
 
 const utils = {
-  linearGradiant(dir: LinearGradiantDir, ...values: string[]): string {
+  linearGradiant(dir: LinearGradiantDir, ...values: (string | undefined)[]): string {
+    const colours = GenStack.from(values)
+      .filterUndefined()
+      .map((s) => s.trim())
+      .filter((s) => !!s)
+      .toArray()
+      .join(', ');
+    if (!colours) return '';
     return `linear-gradient(${dir}, ${values.join(', ')})`;
   },
 };

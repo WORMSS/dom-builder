@@ -23,8 +23,9 @@ export class Dom {
     return this;
   }
 
-  class(value: string): this {
-    this.#classList.add(value);
+  class(value: string | undefined): this {
+    value = value?.trim();
+    if (value) this.#classList.add(value);
     return this;
   }
 
