@@ -8,7 +8,7 @@ type StyleRules = Record<Exclude<keyof CSSStyleDeclaration, 'getPropertyPriority
 declare const StyleRules: StyleRules;
 type LinearGradiantDir = `to ${'left' | 'right' | 'bottom' | 'top'}` | `to ${'left' | 'right'} ${'top' | 'bottom'}` | `${number}deg` | `${number}turn`;
 declare const utils: {
-    linearGradiant(dir: LinearGradiantDir, ...values: string[]): string;
+    linearGradiant(dir: LinearGradiantDir, ...values: (string | undefined)[]): string;
 };
 
 declare class Dom {
@@ -16,7 +16,7 @@ declare class Dom {
     constructor(tagname: string);
     append(...children: (Dom | string | undefined)[]): this;
     attribute(name: string, value: string | undefined): this;
-    class(value: string): this;
+    class(value: string | undefined): this;
     style(setter: (style: StyleRules) => void): this;
     toString(): string;
     protected toStringTagOpener(): string;

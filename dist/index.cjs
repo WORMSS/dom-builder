@@ -50,6 +50,7 @@ var StyleRules = new Proxy(function StyleRules2() {
             return map.size;
           case "setProperty":
             return (name, value) => {
+              value = value?.trim();
               if (value)
                 map.set(name, value);
               return me;
@@ -58,6 +59,7 @@ var StyleRules = new Proxy(function StyleRules2() {
             return utils;
           default:
             return (value) => {
+              value = value?.trim();
               if (value)
                 map.set((0, import_change_case.paramCase)(prop), value);
               return me;
@@ -69,6 +71,9 @@ var StyleRules = new Proxy(function StyleRules2() {
 });
 var utils = {
   linearGradiant(dir, ...values) {
+    const colours = import_genstack.GenStack.from(values).filterUndefined().map((s) => s.trim()).filter((s) => !!s).toArray().join(", ");
+    if (!colours)
+      return "";
     return `linear-gradient(${dir}, ${values.join(", ")})`;
   }
 };
@@ -95,7 +100,9 @@ var Dom = class {
     return this;
   }
   class(value) {
-    this.#classList.add(value);
+    value = value?.trim();
+    if (value)
+      this.#classList.add(value);
     return this;
   }
   style(setter) {
