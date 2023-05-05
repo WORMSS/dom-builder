@@ -7,7 +7,8 @@
   "types": "./dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "prepublishOnly": "npm run build:tsup",
+    "test": "tsup ./src/test.ts && node ./dist/test.cjs",
+    "prepublishOnly": "npm run test && npm run build:tsup",
     "build:tsup": "tsup"
   },
   "repository": {
