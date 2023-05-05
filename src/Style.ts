@@ -25,7 +25,7 @@ export class Style extends Dom {
       ...GenStack.from(this.#stylesheets.entries())
         .filter(([_, style]) => style.length)
         .map(([key, style]) => `${key} { ${style.toString()} }`),
-    ].join('\n');
+    ].join(' ');
   }
 
   protected override toStringChildren(): string {

@@ -156,7 +156,7 @@ var Style = class extends Dom {
   toStringStylesheet() {
     return [
       ...import_genstack3.GenStack.from(this.#stylesheets.entries()).filter(([_, style]) => style.length).map(([key, style]) => `${key} { ${style.toString()} }`)
-    ].join("\n");
+    ].join(" ");
   }
   toStringChildren() {
     return super.toStringChildren() + this.toStringStylesheet();
