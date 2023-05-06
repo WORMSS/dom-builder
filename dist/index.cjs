@@ -109,6 +109,10 @@ var Dom = class {
     setter(this.#style);
     return this;
   }
+  use(setter) {
+    setter(this);
+    return this;
+  }
   toString() {
     const children = this.toStringChildren();
     const tagOpener = this.toStringTagOpener();

@@ -18,6 +18,7 @@ declare class Dom {
     attribute(name: string, value: string | undefined): this;
     class(value: string | undefined): this;
     style(setter: (style: StyleRules) => void): this;
+    use(setter: (dom: this) => void): this;
     toString(): string;
     protected toStringTagOpener(): string;
     protected toStringChildren(): string;

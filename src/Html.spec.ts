@@ -31,6 +31,10 @@ export function HtmlTests(test: Tester) {
       '<html><head><style>body { color: green; } html { background: blue; }</style></head><body></body></html>',
     ),
   );
+  test(
+    new Html().use((h) => h.stylesheet('a', (s) => s.color('green'))),
+    doc('<html><head><style>a { color: green; }</style></head><body></body></html>'),
+  );
 }
 
 function doc(input: string): string {

@@ -34,4 +34,8 @@ export function DomTests(test: Tester) {
   test(new Dom('a').append(new Dom('b')).append(new Dom('c')), '<a><b></b><c></c></a>');
   test(new Dom('a').append(new Dom('b'), 'hello'), '<a><b></b>hello</a>');
   test(new Dom('a').append(new Dom('b'), new Dom('c')), '<a><b></b><c></c></a>');
+  test(
+    new Dom('a').use((d) => d.style((s) => s.color('green'))),
+    '<a style="color: green;"></a>',
+  );
 }

@@ -34,6 +34,11 @@ export class Dom {
     return this;
   }
 
+  use(setter: (dom: this) => void): this {
+    setter(this);
+    return this;
+  }
+
   toString(): string {
     const children = this.toStringChildren();
     const tagOpener = this.toStringTagOpener();
