@@ -21,7 +21,8 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var src_exports = {};
 __export(src_exports, {
   createElement: () => createElement,
-  createHtml: () => createHtml
+  createHtml: () => createHtml,
+  createScript: () => createScript
 });
 module.exports = __toCommonJS(src_exports);
 
@@ -224,8 +225,15 @@ function createHtml(options) {
   }
   return html;
 }
+
+// src/createScript.ts
+function createScript(func, ...data) {
+  const args = data.map((a) => JSON.stringify(a)).join(", ");
+  return createElement("script").append(`(${func.toString()})(${args});`);
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   createElement,
-  createHtml
+  createHtml,
+  createScript
 });

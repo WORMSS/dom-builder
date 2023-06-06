@@ -55,4 +55,9 @@ declare function createHtml(options?: {
     };
 }): Html;
 
-export { Dom, Html, StyleRules, createElement, createHtml };
+type Json = string | number | boolean | null | Json[] | {
+    [key: string]: Json;
+};
+declare function createScript<T extends Json[]>(func: (...args: T) => void, ...data: T): Dom;
+
+export { Dom, Html, StyleRules, createElement, createHtml, createScript };

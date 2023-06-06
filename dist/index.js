@@ -197,7 +197,14 @@ function createHtml(options) {
   }
   return html;
 }
+
+// src/createScript.ts
+function createScript(func, ...data) {
+  const args = data.map((a) => JSON.stringify(a)).join(", ");
+  return createElement("script").append(`(${func.toString()})(${args});`);
+}
 export {
   createElement,
-  createHtml
+  createHtml,
+  createScript
 };
