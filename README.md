@@ -111,6 +111,24 @@ const anchor = createElement('a')
    * I'l let you guess
    */
   .toString();
+
+/**
+ * Typesafe sugar for createElement('script').append((function (arg1, arg2))(arg1Value, arg2Value));
+ */
+const scriptDom = createScript(
+  /**
+   * The function, arguments are type safe.
+   */
+  (arg1, arg2) => ({}),
+  /**
+   * arg1's value, can be number, string, boolean, null, array or object
+   */
+  "a",
+  /**
+   * arg2's value, can be number, string, boolean, null, array or object
+   */
+  2
+)
 ```
 
 Legacy
