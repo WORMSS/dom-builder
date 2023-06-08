@@ -1,6 +1,8 @@
 import { createElement } from './createElement';
-import { Tester } from './test';
+import { expect, describe, it } from 'vitest';
 
-export function createElementTests(test: Tester) {
-  test(createElement('a'), '<a></a>');
-}
+describe(createElement.name, () => {
+  it('should create an bare anchor attribute', () => {
+    expect(createElement('a').toString()).toEqual('<a></a>');
+  })
+})

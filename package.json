@@ -7,7 +7,7 @@
   "types": "./dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "test": "tsup ./src/test.ts && node ./dist/test.cjs",
+    "test": "vitest",
     "prepublishOnly": "npm run test && npm run build:tsup",
     "build:tsup": "tsup"
   },
@@ -39,7 +39,8 @@
   },
   "devDependencies": {
     "tsup": "^6.7.0",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "vitest": "^0.32.0"
   },
   "dependencies": {
     "@wormss/genstack": "^1.3.1",
