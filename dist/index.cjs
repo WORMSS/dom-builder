@@ -28,7 +28,7 @@ module.exports = __toCommonJS(src_exports);
 
 // src/StyleRules.ts
 var import_genstack = require("@wormss/genstack");
-var import_change_case = require("change-case");
+var import_param_case = require("param-case");
 var StyleRules = new Proxy(function StyleRules2() {
 }, {
   construct(target) {
@@ -62,7 +62,7 @@ var StyleRules = new Proxy(function StyleRules2() {
             return (value) => {
               value = value?.trim();
               if (value)
-                map.set((0, import_change_case.paramCase)(prop), value);
+                map.set((0, import_param_case.paramCase)(prop), value);
               return me;
             };
         }
@@ -76,6 +76,9 @@ var utils = {
     if (!colours)
       return "";
     return `linear-gradient(${dir}, ${values.join(", ")})`;
+  },
+  rgb(r, g, b, a) {
+    return `rgb(${import_genstack.GenStack.from([r, g, b, a]).filterUndefined().toArray().join(", ")})`;
   }
 };
 

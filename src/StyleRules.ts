@@ -1,5 +1,5 @@
 import { GenStack } from '@wormss/genstack';
-import { paramCase } from 'change-case';
+import { paramCase } from 'param-case';
 
 export type StyleRules = Record<
   Exclude<
@@ -79,5 +79,8 @@ const utils = {
       .join(', ');
     if (!colours) return '';
     return `linear-gradient(${dir}, ${values.join(', ')})`;
+  },
+  rgb(r: number, g: number, b: number, a?: number): string {
+    return `rgb(${GenStack.from([r, g, b, a]).filterUndefined().toArray().join(', ')})`;
   },
 };

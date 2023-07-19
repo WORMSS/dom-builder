@@ -9,6 +9,7 @@ declare const StyleRules: StyleRules;
 type LinearGradiantDir = `to ${'left' | 'right' | 'bottom' | 'top'}` | `to ${'left' | 'right'} ${'top' | 'bottom'}` | `${number}deg` | `${number}turn`;
 declare const utils: {
     linearGradiant(dir: LinearGradiantDir, ...values: (string | undefined)[]): string;
+    rgb(r: number, g: number, b: number, a?: number): string;
 };
 
 declare class Dom {

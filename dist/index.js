@@ -1,6 +1,6 @@
 // src/StyleRules.ts
 import { GenStack } from "@wormss/genstack";
-import { paramCase } from "change-case";
+import { paramCase } from "param-case";
 var StyleRules = new Proxy(function StyleRules2() {
 }, {
   construct(target) {
@@ -48,6 +48,9 @@ var utils = {
     if (!colours)
       return "";
     return `linear-gradient(${dir}, ${values.join(", ")})`;
+  },
+  rgb(r, g, b, a) {
+    return `rgb(${GenStack.from([r, g, b, a]).filterUndefined().toArray().join(", ")})`;
   }
 };
 
