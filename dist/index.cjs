@@ -79,6 +79,9 @@ var utils = {
   },
   rgb(r, g, b, a) {
     return `rgb(${import_genstack.GenStack.from([r, g, b, a]).filterUndefined().toArray().join(", ")})`;
+  },
+  url(url) {
+    return `url('${url}')`;
   }
 };
 

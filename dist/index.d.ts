@@ -10,6 +10,7 @@ type LinearGradiantDir = `to ${'left' | 'right' | 'bottom' | 'top'}` | `to ${'le
 declare const utils: {
     linearGradiant(dir: LinearGradiantDir, ...values: (string | undefined)[]): string;
     rgb(r: number, g: number, b: number, a?: number): string;
+    url(url: string): string;
 };
 
 declare class Dom {

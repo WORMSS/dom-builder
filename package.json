@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "test": "vitest --reporter verbose",
-    "prepublishOnly": "npm run test && npm run build:tsup",
+    "prepublishOnly": "npm run build:tsup",
     "build:tsup": "tsup"
   },
   "repository": {

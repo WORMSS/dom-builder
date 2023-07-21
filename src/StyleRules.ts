@@ -83,4 +83,7 @@ const utils = {
   rgb(r: number, g: number, b: number, a?: number): string {
     return `rgb(${GenStack.from([r, g, b, a]).filterUndefined().toArray().join(', ')})`;
   },
+  url(url: string): string {
+    return `url('${url}')`;
+  },
 };

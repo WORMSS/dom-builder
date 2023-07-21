@@ -51,6 +51,9 @@ var utils = {
   },
   rgb(r, g, b, a) {
     return `rgb(${GenStack.from([r, g, b, a]).filterUndefined().toArray().join(", ")})`;
+  },
+  url(url) {
+    return `url('${url}')`;
   }
 };
 
