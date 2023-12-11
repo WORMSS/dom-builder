@@ -47,7 +47,13 @@ var utils = {
     const colours = GenStack.from(values).filterUndefined().map((s) => s.trim()).filter((s) => !!s).toArray().join(", ");
     if (!colours)
       return "";
-    return `linear-gradient(${dir}, ${values.join(", ")})`;
+    return `linear-gradient(${dir}, ${colours})`;
+  },
+  list(...values) {
+    const list = GenStack.from(values).filterUndefined().map((s) => s.trim()).filter((s) => !!s).toArray().join(", ");
+    if (!list)
+      return void 0;
+    return list;
   },
   rgb(r, g, b, a) {
     return `rgb(${GenStack.from([r, g, b, a]).filterUndefined().toArray().join(", ")})`;

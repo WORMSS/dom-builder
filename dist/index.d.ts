@@ -6,9 +6,12 @@ type StyleRules = Record<Exclude<keyof CSSStyleDeclaration, 'getPropertyPriority
     utils: typeof utils;
 };
 declare const StyleRules: StyleRules;
-type LinearGradiantDir = `to ${'left' | 'right' | 'bottom' | 'top'}` | `to ${'left' | 'right'} ${'top' | 'bottom'}` | `${number}deg` | `${number}turn`;
+type AngleUnits = `${number}deg` | `${number}turn` | `${number}grad` | `${number}rad`;
+type SideOrCorner = `to ${'left' | 'right' | 'bottom' | 'top'}` | `to ${'left' | 'right'} ${'top' | 'bottom'}`;
+type LinearGradiantDir = SideOrCorner | AngleUnits;
 declare const utils: {
     linearGradiant(dir: LinearGradiantDir, ...values: (string | undefined)[]): string;
+    list(...values: (string | undefined)[]): string | undefined;
     rgb(r: number, g: number, b: number, a?: number): string;
     url(url: string): string;
 };
