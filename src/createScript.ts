@@ -1,4 +1,4 @@
-import { createElement } from './createElement';
+import { createElement } from './index';
 import type { Dom } from './Dom';
 
 type Json = string | number | boolean | null | Json[] | { [key: string]: Json };

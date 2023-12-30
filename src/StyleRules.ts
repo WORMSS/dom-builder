@@ -1,5 +1,6 @@
 import { GenStack } from '@wormss/genstack';
 import { paramCase } from 'param-case';
+import { StyleUtils } from './StyleUtils';
 
 export type StyleRules = Record<
   Exclude<
@@ -21,7 +22,7 @@ export type StyleRules = Record<
   readonly length: number;
   setProperty(name: string, value: string | undefined): StyleRules;
   new (): StyleRules;
-  utils: typeof utils;
+  utils: typeof StyleUtils;
 };
 
 export const StyleRules = new Proxy(function StyleRules() {} as unknown as StyleRules, {
@@ -50,7 +51,7 @@ export const StyleRules = new Proxy(function StyleRules() {} as unknown as Style
               return me;
             };
           case 'utils':
-            return utils;
+            return StyleUtils;
           default:
             return (value: string | undefined) => {
               value = value?.trim();
@@ -62,39 +63,3 @@ export const StyleRules = new Proxy(function StyleRules() {} as unknown as Style
     });
   },
 });
-
-type AngleUnits = `${number}deg` | `${number}turn` | `${number}grad` | `${number}rad`;
-type SideOrCorner =
-  | `to ${'left' | 'right' | 'bottom' | 'top'}`
-  | `to ${'left' | 'right'} ${'top' | 'bottom'}`;
-
-type LinearGradiantDir = SideOrCorner | AngleUnits;
-
-const utils = {
-  linearGradiant(dir: LinearGradiantDir, ...values: (string | undefined)[]): string {
-    const colours = GenStack.from(values)
-      .filterUndefined()
-      .map((s) => s.trim())
-      .filter((s) => !!s)
-      .toArray()
-      .join(', ');
-    if (!colours) return '';
-    return `linear-gradient(${dir}, ${colours})`;
-  },
-  list(...values: (string | undefined)[]): string | undefined {
-    const list = GenStack.from(values)
-      .filterUndefined()
-      .map((s) => s.trim())
-      .filter((s) => !!s)
-      .toArray()
-      .join(', ');
-    if (!list) return undefined;
-    return list;
-  },
-  rgb(r: number, g: number, b: number, a?: number): string {
-    return `rgb(${GenStack.from([r, g, b, a]).filterUndefined().toArray().join(', ')})`;
-  },
-  url(url: string): string {
-    return `url('${url}')`;
-  },
-};

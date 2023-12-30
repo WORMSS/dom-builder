@@ -1,4 +1,4 @@
-import { createScript } from './createScript';
+import { createScript } from './index';
 import { expect, describe, it } from 'vitest';
 
 describe(createScript.name, () => {

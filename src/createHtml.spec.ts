@@ -1,4 +1,4 @@
-import { createHtml } from './createHtml';
+import { createHtml } from './index';
 import { expect, describe, it } from 'vitest';
 
 describe(createHtml.name, () => {
