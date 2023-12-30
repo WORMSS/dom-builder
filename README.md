@@ -133,5 +133,5 @@ const scriptDom = createScript(
 
 Legacy
 ```js
-const { createHtml, createElement } = require('@wormss/decode-html');
+const { createHtml, createElement } = require('@wormss/dom-builder');
 ```
