@@ -1,6 +1,6 @@
 {
   "name": "@wormss/dom-builder",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Build Dom structure in chains",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
