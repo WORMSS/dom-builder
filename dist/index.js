@@ -1,6 +1,34 @@
 // src/StyleRules.ts
+import { GenStack as GenStack2 } from "@wormss/genstack";
+import { kebabCase } from "change-case";
+
+// src/StyleUtils.ts
 import { GenStack } from "@wormss/genstack";
-import { paramCase } from "param-case";
+var StyleUtils = {
+  linearGradiant(dir, ...values) {
+    const colours = GenStack.from(values).filterUndefined().map((s) => s.trim()).filter((s) => !!s).toArray().join(", ");
+    if (!colours) return "";
+    return `linear-gradient(${dir}, ${colours})`;
+  },
+  list(...values) {
+    const list = GenStack.from(values).filterUndefined().map((s) => s.trim()).filter((s) => !!s).toArray().join(", ");
+    if (!list) return void 0;
+    return list;
+  },
+  rgb(r, g, b, a) {
+    return `rgb(${GenStack.from([r, g, b, a]).filterUndefined().toArray().join(", ")})`;
+  },
+  hsl(hue, saturation, lightness, alpha) {
+    const hueStr = typeof hue === "string" ? hue : `${hue}turn`;
+    const alphaStr = typeof alpha === "number" ? `/ ${alpha}` : "";
+    return `hsl(${hueStr}, ${saturation}%, ${lightness}%${alphaStr})`;
+  },
+  url(url) {
+    return `url('${url}')`;
+  }
+};
+
+// src/StyleRules.ts
 var StyleRules = new Proxy(function StyleRules2() {
 }, {
   construct(target) {
@@ -10,7 +38,7 @@ var StyleRules = new Proxy(function StyleRules2() {
         if (typeof prop === "symbol")
           switch (prop) {
             case Symbol.iterator:
-              return () => GenStack.from(map.entries()).map(([k, v]) => `${k}: ${v};`);
+              return () => GenStack2.from(map.entries()).map(([k, v]) => `${k}: ${v};`);
             case Symbol.toStringTag:
               return target2.name;
             default:
@@ -24,17 +52,15 @@ var StyleRules = new Proxy(function StyleRules2() {
           case "setProperty":
             return (name, value) => {
               value = value?.trim();
-              if (value)
-                map.set(name, value);
+              if (value) map.set(name, value);
               return me;
             };
           case "utils":
-            return utils;
+            return StyleUtils;
           default:
             return (value) => {
               value = value?.trim();
-              if (value)
-                map.set(paramCase(prop), value);
+              if (value) map.set(kebabCase(prop), value);
               return me;
             };
         }
@@ -42,29 +68,9 @@ var StyleRules = new Proxy(function StyleRules2() {
     });
   }
 });
-var utils = {
-  linearGradiant(dir, ...values) {
-    const colours = GenStack.from(values).filterUndefined().map((s) => s.trim()).filter((s) => !!s).toArray().join(", ");
-    if (!colours)
-      return "";
-    return `linear-gradient(${dir}, ${colours})`;
-  },
-  list(...values) {
-    const list = GenStack.from(values).filterUndefined().map((s) => s.trim()).filter((s) => !!s).toArray().join(", ");
-    if (!list)
-      return void 0;
-    return list;
-  },
-  rgb(r, g, b, a) {
-    return `rgb(${GenStack.from([r, g, b, a]).filterUndefined().toArray().join(", ")})`;
-  },
-  url(url) {
-    return `url('${url}')`;
-  }
-};
 
 // src/Dom.ts
-import { GenStack as GenStack2 } from "@wormss/genstack";
+import { GenStack as GenStack3 } from "@wormss/genstack";
 var Dom = class {
   #tagname;
   #children = [];
@@ -75,19 +81,17 @@ var Dom = class {
     this.#tagname = tagname;
   }
   append(...children) {
-    this.#children.push(...GenStack2.from(children).filterUndefined());
+    this.#children.push(...GenStack3.from(children).filterUndefined());
     return this;
   }
   attribute(name, value) {
-    if (value === void 0)
-      return this;
+    if (value === void 0) return this;
     this.#attributes.set(name, value);
     return this;
   }
   class(value) {
     value = value?.trim();
-    if (value)
-      this.#classList.add(value);
+    if (value) this.#classList.add(value);
     return this;
   }
   style(setter) {
@@ -106,7 +110,7 @@ var Dom = class {
   toStringTagOpener() {
     const tagOpener = [
       this.#tagname,
-      ...GenStack2.from(this.#attributes.entries()).map(([k, v]) => v === "" ? k : `${k}="${v}"`)
+      ...GenStack3.from(this.#attributes.entries()).map(([k, v]) => v === "" ? k : `${k}="${v}"`)
     ];
     if (this.#classList.size) {
       tagOpener.push(`class="${[...this.#classList].join(" ")}"`);
@@ -127,7 +131,7 @@ function createElement(tagname) {
 }
 
 // src/Style.ts
-import { GenStack as GenStack3 } from "@wormss/genstack";
+import { GenStack as GenStack4 } from "@wormss/genstack";
 var Style = class extends Dom {
   #stylesheets = /* @__PURE__ */ new Map();
   constructor() {
@@ -144,7 +148,7 @@ var Style = class extends Dom {
   }
   toStringStylesheet() {
     return [
-      ...GenStack3.from(this.#stylesheets.entries()).filter(([_, style]) => style.length).map(([key, style]) => `${key} { ${style.toString()} }`)
+      ...GenStack4.from(this.#stylesheets.entries()).filter(([_, style]) => style.length).map(([key, style]) => `${key} { ${style.toString()} }`)
     ].join(" ");
   }
   toStringChildren() {
@@ -216,6 +220,7 @@ function createScript(func, ...data) {
   return createElement("script").append(`(${func.toString()})(${args});`);
 }
 export {
+  StyleUtils,
   createElement,
   createHtml,
   createScript

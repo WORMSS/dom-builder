@@ -18,17 +18,46 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/index.ts
-var src_exports = {};
-__export(src_exports, {
+var index_exports = {};
+__export(index_exports, {
+  StyleUtils: () => StyleUtils,
   createElement: () => createElement,
   createHtml: () => createHtml,
   createScript: () => createScript
 });
-module.exports = __toCommonJS(src_exports);
+module.exports = __toCommonJS(index_exports);
 
 // src/StyleRules.ts
+var import_genstack2 = require("@wormss/genstack");
+var import_change_case = require("change-case");
+
+// src/StyleUtils.ts
 var import_genstack = require("@wormss/genstack");
-var import_param_case = require("param-case");
+var StyleUtils = {
+  linearGradiant(dir, ...values) {
+    const colours = import_genstack.GenStack.from(values).filterUndefined().map((s) => s.trim()).filter((s) => !!s).toArray().join(", ");
+    if (!colours) return "";
+    return `linear-gradient(${dir}, ${colours})`;
+  },
+  list(...values) {
+    const list = import_genstack.GenStack.from(values).filterUndefined().map((s) => s.trim()).filter((s) => !!s).toArray().join(", ");
+    if (!list) return void 0;
+    return list;
+  },
+  rgb(r, g, b, a) {
+    return `rgb(${import_genstack.GenStack.from([r, g, b, a]).filterUndefined().toArray().join(", ")})`;
+  },
+  hsl(hue, saturation, lightness, alpha) {
+    const hueStr = typeof hue === "string" ? hue : `${hue}turn`;
+    const alphaStr = typeof alpha === "number" ? `/ ${alpha}` : "";
+    return `hsl(${hueStr}, ${saturation}%, ${lightness}%${alphaStr})`;
+  },
+  url(url) {
+    return `url('${url}')`;
+  }
+};
+
+// src/StyleRules.ts
 var StyleRules = new Proxy(function StyleRules2() {
 }, {
   construct(target) {
@@ -38,7 +67,7 @@ var StyleRules = new Proxy(function StyleRules2() {
         if (typeof prop === "symbol")
           switch (prop) {
             case Symbol.iterator:
-              return () => import_genstack.GenStack.from(map.entries()).map(([k, v]) => `${k}: ${v};`);
+              return () => import_genstack2.GenStack.from(map.entries()).map(([k, v]) => `${k}: ${v};`);
             case Symbol.toStringTag:
               return target2.name;
             default:
@@ -52,17 +81,15 @@ var StyleRules = new Proxy(function StyleRules2() {
           case "setProperty":
             return (name, value) => {
               value = value?.trim();
-              if (value)
-                map.set(name, value);
+              if (value) map.set(name, value);
               return me;
             };
           case "utils":
-            return utils;
+            return StyleUtils;
           default:
             return (value) => {
               value = value?.trim();
-              if (value)
-                map.set((0, import_param_case.paramCase)(prop), value);
+              if (value) map.set((0, import_change_case.kebabCase)(prop), value);
               return me;
             };
         }
@@ -70,29 +97,9 @@ var StyleRules = new Proxy(function StyleRules2() {
     });
   }
 });
-var utils = {
-  linearGradiant(dir, ...values) {
-    const colours = import_genstack.GenStack.from(values).filterUndefined().map((s) => s.trim()).filter((s) => !!s).toArray().join(", ");
-    if (!colours)
-      return "";
-    return `linear-gradient(${dir}, ${colours})`;
-  },
-  list(...values) {
-    const list = import_genstack.GenStack.from(values).filterUndefined().map((s) => s.trim()).filter((s) => !!s).toArray().join(", ");
-    if (!list)
-      return void 0;
-    return list;
-  },
-  rgb(r, g, b, a) {
-    return `rgb(${import_genstack.GenStack.from([r, g, b, a]).filterUndefined().toArray().join(", ")})`;
-  },
-  url(url) {
-    return `url('${url}')`;
-  }
-};
 
 // src/Dom.ts
-var import_genstack2 = require("@wormss/genstack");
+var import_genstack3 = require("@wormss/genstack");
 var Dom = class {
   #tagname;
   #children = [];
@@ -103,19 +110,17 @@ var Dom = class {
     this.#tagname = tagname;
   }
   append(...children) {
-    this.#children.push(...import_genstack2.GenStack.from(children).filterUndefined());
+    this.#children.push(...import_genstack3.GenStack.from(children).filterUndefined());
     return this;
   }
   attribute(name, value) {
-    if (value === void 0)
-      return this;
+    if (value === void 0) return this;
     this.#attributes.set(name, value);
     return this;
   }
   class(value) {
     value = value?.trim();
-    if (value)
-      this.#classList.add(value);
+    if (value) this.#classList.add(value);
     return this;
   }
   style(setter) {
@@ -134,7 +139,7 @@ var Dom = class {
   toStringTagOpener() {
     const tagOpener = [
       this.#tagname,
-      ...import_genstack2.GenStack.from(this.#attributes.entries()).map(([k, v]) => v === "" ? k : `${k}="${v}"`)
+      ...import_genstack3.GenStack.from(this.#attributes.entries()).map(([k, v]) => v === "" ? k : `${k}="${v}"`)
     ];
     if (this.#classList.size) {
       tagOpener.push(`class="${[...this.#classList].join(" ")}"`);
@@ -155,7 +160,7 @@ function createElement(tagname) {
 }
 
 // src/Style.ts
-var import_genstack3 = require("@wormss/genstack");
+var import_genstack4 = require("@wormss/genstack");
 var Style = class extends Dom {
   #stylesheets = /* @__PURE__ */ new Map();
   constructor() {
@@ -172,7 +177,7 @@ var Style = class extends Dom {
   }
   toStringStylesheet() {
     return [
-      ...import_genstack3.GenStack.from(this.#stylesheets.entries()).filter(([_, style]) => style.length).map(([key, style]) => `${key} { ${style.toString()} }`)
+      ...import_genstack4.GenStack.from(this.#stylesheets.entries()).filter(([_, style]) => style.length).map(([key, style]) => `${key} { ${style.toString()} }`)
     ].join(" ");
   }
   toStringChildren() {
@@ -245,6 +250,7 @@ function createScript(func, ...data) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  StyleUtils,
   createElement,
   createHtml,
   createScript
