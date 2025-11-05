@@ -31,6 +31,11 @@ export const StyleUtils = {
   rgb(r: number, g: number, b: number, a?: number): string {
     return `rgb(${GenStack.from([r, g, b, a]).filterUndefined().toArray().join(', ')})`;
   },
+  hsl(hue: number | AngleUnits, saturation: number, lightness: number, alpha?: number): string {
+    const hueStr = typeof hue === 'string' ? hue : `${hue}turn`;
+    const alphaStr = typeof alpha === 'number' ? `/ ${alpha}` : '';
+    return `hsl(${hueStr}, ${saturation}%, ${lightness}%${alphaStr})`;
+  },
   url(url: string): string {
     return `url('${url}')`;
   },
