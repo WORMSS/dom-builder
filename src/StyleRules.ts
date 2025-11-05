@@ -1,5 +1,5 @@
 import { GenStack } from '@wormss/genstack';
-import { paramCase } from 'param-case';
+import { kebabCase } from 'change-case';
 import { StyleUtils } from './StyleUtils';
 
 export type StyleRules = Record<
@@ -55,7 +55,7 @@ export const StyleRules = new Proxy(function StyleRules() {} as unknown as Style
           default:
             return (value: string | undefined) => {
               value = value?.trim();
-              if (value) map.set(paramCase(prop), value);
+              if (value) map.set(kebabCase(prop), value);
               return me;
             };
         }
