@@ -46,6 +46,17 @@ describe(Dom.name, () => {
     it('should ignore attribute when value is undefined', () => {
       expect(new Dom('a').attribute('foo', undefined).toString()).toEqual('<a></a>');
     });
+
+    it('should accept attributes as an object', () => {
+      expect(
+        new Dom('a')
+          .attribute({
+            foo: 'bar',
+            bar: 'baz',
+          })
+          .toString(),
+      ).toEqual('<a foo="bar" bar="baz"></a>');
+    });
   });
 
   describe(Dom.prototype.style.name, () => {

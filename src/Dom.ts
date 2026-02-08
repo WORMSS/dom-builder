@@ -17,9 +17,25 @@ export class Dom {
     return this;
   }
 
-  attribute(name: string, value: string | undefined): this {
-    if (value === undefined) return this;
-    this.#attributes.set(name, value);
+  attribute(attributes: Record<string, string | undefined>): this;
+  attribute(name: string, value: string | undefined): this;
+  attribute(
+    nameOrAttributes: string | Record<string, string | undefined>,
+    value?: string | undefined,
+  ): this {
+    if (typeof nameOrAttributes === 'string') {
+      const name = nameOrAttributes;
+      if (value === undefined) return this;
+      this.#attributes.set(name, value);
+    } else {
+      const attributes = nameOrAttributes;
+      for (const [name, value] of Object.entries(attributes)) {
+        if (value === undefined) {
+          continue;
+        }
+        this.#attributes.set(name, value);
+      }
+    }
     return this;
   }
 
