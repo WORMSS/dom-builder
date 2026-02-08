@@ -1,4 +1,5 @@
 import { Dom } from './Dom';
+import type { StyleRulesKeys } from './StyleRules';
 import { StyleRules } from './StyleRules';
 import { Style } from './Style';
 import { createElement } from './createElement';
@@ -24,7 +25,10 @@ export class Html extends Dom {
     return this;
   }
 
-  stylesheet(selector: string, setter: (style: StyleRules) => void): this {
+  stylesheet(
+    selector: string,
+    setter: ((style: StyleRules) => void) | Partial<Record<StyleRulesKeys, string | undefined>>,
+  ): this {
     this.#stylesheet.stylesheet(selector, setter);
     if (!this.#usedStylesheet) {
       this.#usedStylesheet = true;

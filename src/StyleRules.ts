@@ -2,22 +2,21 @@ import { GenStack } from '@wormss/genstack';
 import { kebabCase } from 'change-case';
 import { StyleUtils } from './StyleUtils';
 
-export type StyleRules = Record<
-  Exclude<
-    keyof CSSStyleDeclaration,
-    | 'getPropertyPriority'
-    | 'getPropertyValue'
-    | 'item'
-    | 'removeProperty'
-    | 'setProperty'
-    | 'parentRule'
-    | 'length'
-    | `webkit${string}` // remove a bunch of webkit
-    | number
-    | symbol
-  >,
-  (value: string | undefined) => StyleRules
-> & {
+export type StyleRulesKeys = Exclude<
+  keyof CSSStyleDeclaration,
+  | 'getPropertyPriority'
+  | 'getPropertyValue'
+  | 'item'
+  | 'removeProperty'
+  | 'setProperty'
+  | 'parentRule'
+  | 'length'
+  | `webkit${string}` // remove a bunch of webkit
+  | number
+  | symbol
+>;
+
+export type StyleRules = Record<StyleRulesKeys, (value: string | undefined) => StyleRules> & {
   [Symbol.iterator](): IterableIterator<string>;
   readonly length: number;
   setProperty(name: string, value: string | undefined): StyleRules;

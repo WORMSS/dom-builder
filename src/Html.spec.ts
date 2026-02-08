@@ -59,6 +59,21 @@ describe(Html.name, () => {
         ),
       );
     });
+
+    it('should add style rules by object', () => {
+      expect(
+        new Html()
+          .stylesheet('body', {
+            color: 'green',
+            background: 'blue',
+          })
+          .toString(),
+      ).toBe(
+        doc(
+          '<html><head><style>body { color: green; background: blue; }</style></head><body></body></html>',
+        ),
+      );
+    });
   });
 
   describe(Html.prototype.use.name, () => {
