@@ -113,9 +113,20 @@ var Dom = class {
     this.#children.push(...import_genstack3.GenStack.from(children).filterUndefined());
     return this;
   }
-  attribute(name, value) {
-    if (value === void 0) return this;
-    this.#attributes.set(name, value);
+  attribute(nameOrAttributes, value) {
+    if (typeof nameOrAttributes === "string") {
+      const name = nameOrAttributes;
+      if (value === void 0) return this;
+      this.#attributes.set(name, value);
+    } else {
+      const attributes = nameOrAttributes;
+      for (const [name, value2] of Object.entries(attributes)) {
+        if (value2 === void 0) {
+          continue;
+        }
+        this.#attributes.set(name, value2);
+      }
+    }
     return this;
   }
   class(value) {
