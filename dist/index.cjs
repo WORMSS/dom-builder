@@ -168,7 +168,13 @@ var Style = class extends Dom {
   }
   stylesheet(selector, setter) {
     const style = new StyleRules();
-    setter(style);
+    if (typeof setter === "function") {
+      setter(style);
+    } else {
+      for (const [key, value] of Object.entries(setter)) {
+        style[key](value);
+      }
+    }
     this.#stylesheets.set(selector, style);
     return this;
   }

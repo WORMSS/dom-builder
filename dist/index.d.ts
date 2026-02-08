@@ -9,7 +9,8 @@ declare const StyleUtils: {
     readonly url: (url: string) => string;
 };
 
-type StyleRules = Record<Exclude<keyof CSSStyleDeclaration, 'getPropertyPriority' | 'getPropertyValue' | 'item' | 'removeProperty' | 'setProperty' | 'parentRule' | 'length' | `webkit${string}` | number | symbol>, (value: string | undefined) => StyleRules> & {
+type StyleRulesKeys = Exclude<keyof CSSStyleDeclaration, 'getPropertyPriority' | 'getPropertyValue' | 'item' | 'removeProperty' | 'setProperty' | 'parentRule' | 'length' | `webkit${string}` | number | symbol>;
+type StyleRules = Record<StyleRulesKeys, (value: string | undefined) => StyleRules> & {
     [Symbol.iterator](): IterableIterator<string>;
     readonly length: number;
     setProperty(name: string, value: string | undefined): StyleRules;
@@ -38,7 +39,7 @@ declare class Html extends Dom {
     constructor();
     head(setter: (head: Dom) => void): this;
     body(setter: (body: Dom) => void): this;
-    stylesheet(selector: string, setter: (style: StyleRules) => void): this;
+    stylesheet(selector: string, setter: ((style: StyleRules) => void) | Partial<Record<StyleRulesKeys, string | undefined>>): this;
     toString(): string;
 }
 
