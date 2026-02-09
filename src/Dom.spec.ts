@@ -124,6 +124,11 @@ describe(Dom.name, () => {
     it('should add multiple children both strings in same calls', () => {
       expect(new Dom('a').append('a', 'b').toString()).toEqual('<a>ab</a>');
     });
+
+    it('should add a deferable string', () => {
+      const callback = () => 'a';
+      expect(new Dom('a').append(callback).toString()).toEqual('<a>a</a>');
+    });
   });
 
   describe(Dom.prototype.use.name, () => {

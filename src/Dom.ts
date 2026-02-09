@@ -3,7 +3,7 @@ import { GenStack } from '@wormss/genstack';
 
 export class Dom {
   #tagname: string;
-  #children: (Dom | string)[] = [];
+  #children: (Dom | string | (() => string))[] = [];
   #attributes: Map<string, string> = new Map();
   #classList: Set<string> = new Set();
   #style = new StyleRules();
@@ -12,7 +12,7 @@ export class Dom {
     this.#tagname = tagname;
   }
 
-  append(...children: (Dom | string | undefined)[]): this {
+  append(...children: (Dom | string | (() => string) | undefined)[]): this {
     this.#children.push(...GenStack.from(children).filterUndefined());
     return this;
   }
@@ -77,6 +77,14 @@ export class Dom {
   }
 
   protected toStringChildren(): string {
-    return this.#children.map((c) => c.toString()).join('');
+    return this.#children
+      .map((c) => {
+        if (typeof c === 'function') {
+          return c();
+        } else {
+          return c.toString();
+        }
+      })
+      .join('');
   }
 }
