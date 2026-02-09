@@ -161,7 +161,13 @@ var Dom = class {
     return tagOpener.join(" ");
   }
   toStringChildren() {
-    return this.#children.map((c) => c.toString()).join("");
+    return this.#children.map((c) => {
+      if (typeof c === "function") {
+        return c();
+      } else {
+        return c.toString();
+      }
+    }).join("");
   }
 };
 

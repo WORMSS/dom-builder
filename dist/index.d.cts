@@ -22,7 +22,7 @@ declare const StyleRules: StyleRules;
 declare class Dom {
     #private;
     constructor(tagname: string);
-    append(...children: (Dom | string | undefined)[]): this;
+    append(...children: (Dom | string | (() => string) | undefined)[]): this;
     attribute(attributes: Record<string, string | undefined>): this;
     attribute(name: string, value: string | undefined): this;
     class(value: string | undefined): this;
