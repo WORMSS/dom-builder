@@ -134,6 +134,16 @@ describe(Dom.name, () => {
       const callback = () => new Dom('b');
       expect(new Dom('a').append(callback).toString()).toEqual('<a><b></b></a>');
     });
+
+    it('should handle deferable function returning undefined', () => {
+      const callback = () => undefined;
+      expect(new Dom('a').append(callback).toString()).toEqual('<a></a>');
+    });
+
+    it('should handle deferable function returning null', () => {
+      const callback = () => null;
+      expect(new Dom('a').append(callback).toString()).toEqual('<a></a>');
+    });
   });
 
   describe(Dom.prototype.use.name, () => {

@@ -7,7 +7,7 @@ import { StyleRules } from './StyleRules';
  */
 export class Dom {
   #tagname: string;
-  #children: (Dom | string | (() => string | Dom))[] = [];
+  #children: (Dom | string | (() => string | Dom | undefined | null))[] = [];
   #attributes: Map<string, string> = new Map();
   #classList: Set<string> = new Set();
   #style = new StyleRules();
@@ -26,8 +26,10 @@ export class Dom {
    * @param children The children to append.
    * @returns The current Dom instance for chaining.
    */
-  append(...children: (Dom | string | (() => string | Dom) | undefined)[]): this {
-    this.#children.push(...GenStack.from(children).filterUndefined());
+  append(
+    ...children: (Dom | string | (() => string | Dom | undefined | null) | undefined | null)[]
+  ): this {
+    this.#children.push(...GenStack.from(children).filterNullUndefined());
     return this;
   }
 
@@ -133,7 +135,7 @@ export class Dom {
     return this.#children
       .map((c) => {
         if (typeof c === 'function') {
-          return c().toString();
+          return c()?.toString() ?? '';
         } else {
           return c.toString();
         }
