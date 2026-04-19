@@ -1,9 +1,9 @@
-import { StyleRules } from './StyleRules';
 import { GenStack } from '@wormss/genstack';
+import { StyleRules } from './StyleRules';
 
 export class Dom {
   #tagname: string;
-  #children: (Dom | string | (() => string))[] = [];
+  #children: (Dom | string | (() => string | Dom))[] = [];
   #attributes: Map<string, string> = new Map();
   #classList: Set<string> = new Set();
   #style = new StyleRules();
@@ -12,7 +12,7 @@ export class Dom {
     this.#tagname = tagname;
   }
 
-  append(...children: (Dom | string | (() => string) | undefined)[]): this {
+  append(...children: (Dom | string | (() => string | Dom) | undefined)[]): this {
     this.#children.push(...GenStack.from(children).filterUndefined());
     return this;
   }
@@ -80,7 +80,7 @@ export class Dom {
     return this.#children
       .map((c) => {
         if (typeof c === 'function') {
-          return c();
+          return c().toString();
         } else {
           return c.toString();
         }
