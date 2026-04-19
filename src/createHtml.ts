@@ -1,25 +1,50 @@
 import { Html } from './Html';
 import { createElement } from './createElement';
 
-export function createHtml(options?: {
+/**
+ * Options for configuring a new HTML document.
+ */
+export interface CreateHtmlOptions {
+  /**
+   * The text for the <title> tag.
+   */
   title?: string;
   /**
+   * The value for the lang attribute of the <html> tag.
    * @default en
    */
   lang?: string;
   /**
+   * Whether to include a default viewport meta tag for mobile responsiveness.
    * @default true
    */
   mobileMeta?: boolean;
   /**
+   * The value for the charset meta tag in the <head>.
    * @default utf-8
    */
   charset?: string;
+  /**
+   * Configuration for the <base> tag.
+   */
   base?: {
+    /**
+     * The base URL for all relative URLs in the document.
+     */
     url?: string;
+    /**
+     * The default target for all hyperlinks and forms in the document.
+     */
     target?: string;
   };
-}): Html {
+}
+
+/**
+ * Factory function to create and configure a new Html document instance.
+ * @param options The options for the document.
+ * @returns A new, configured Html instance.
+ */
+export function createHtml(options?: CreateHtmlOptions): Html {
   const html = new Html();
   const lang = options?.lang ?? 'en';
   if (lang) {
