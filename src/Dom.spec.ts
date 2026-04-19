@@ -129,6 +129,11 @@ describe(Dom.name, () => {
       const callback = () => 'a';
       expect(new Dom('a').append(callback).toString()).toEqual('<a>a</a>');
     });
+
+    it('should add a deferable Dom object', () => {
+      const callback = () => new Dom('b');
+      expect(new Dom('a').append(callback).toString()).toEqual('<a><b></b></a>');
+    });
   });
 
   describe(Dom.prototype.use.name, () => {
