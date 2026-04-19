@@ -74,6 +74,12 @@ describe(Html.name, () => {
         ),
       );
     });
+
+    it('should NOT add a style element if stylesheet() is called but no rules added', () => {
+      expect(new Html().stylesheet('body', (s) => s.color(undefined)).toString()).toBe(
+        doc('<html><head></head><body></body></html>'),
+      );
+    });
   });
 
   describe(Html.prototype.use.name, () => {

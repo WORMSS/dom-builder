@@ -12,13 +12,13 @@ export class Html extends Dom {
   #head = createElement('head');
   #stylesheet = new Style();
   #body = createElement('body');
-  #usedStylesheet = false;
 
   /**
    * Creates a new Html instance and initializes it with head and body elements.
    */
   constructor() {
     super('html');
+    this.#head.append(() => (this.#stylesheet.length ? this.#stylesheet : undefined));
     this.append(this.#head, this.#body);
   }
 
@@ -53,10 +53,6 @@ export class Html extends Dom {
     setter: ((style: StyleRules) => void) | Partial<Record<StyleRulesKeys, string | undefined>>,
   ): this {
     this.#stylesheet.stylesheet(selector, setter);
-    if (!this.#usedStylesheet) {
-      this.#usedStylesheet = true;
-      this.#head.append(this.#stylesheet);
-    }
     return this;
   }
 

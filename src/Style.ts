@@ -41,10 +41,10 @@ export class Style extends Dom {
   }
 
   /**
-   * Returns the number of stylesheet rules defined.
+   * Returns the number of non-empty stylesheet rules defined.
    */
   get length(): number {
-    return this.#stylesheets.size;
+    return GenStack.from(this.#stylesheets.values()).filter((s) => s.length > 0).toArray().length;
   }
 
   /**
