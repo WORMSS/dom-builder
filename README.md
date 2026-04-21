@@ -127,6 +127,20 @@ const html = createHtml({
 // </html>
 ```
 
+### Direct Head/Body Manipulation
+You can directly access and manipulate the `<head>` and `<body>` elements using their respective methods.
+
+```ts
+const html = createHtml()
+  .head((head) => {
+    head.append(createElement('meta').attribute('name', 'description').attribute('content', 'My description'));
+  })
+  .body((body) => {
+    body.class('my-page').append('Page content');
+  })
+  .toString();
+```
+
 ### Document Stylesheets
 The `stylesheet` method adds a `<style>` block to the document's `<head>`. It is intelligent and will only render the `<style>` tag if at least one non-empty rule is added.
 
