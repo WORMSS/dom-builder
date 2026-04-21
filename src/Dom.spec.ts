@@ -26,6 +26,16 @@ describe(Dom.name, () => {
     it('should add a single class when class and undefined are added', () => {
       expect(new Dom('a').class('foo').class(undefined).toString()).toEqual('<a class="foo"></a>');
     });
+
+    it('should support deferred class', () => {
+      let className: string | undefined = 'foo';
+      const dom = new Dom('div').class(() => className);
+      expect(dom.toString()).toBe('<div class="foo"></div>');
+      className = 'bar';
+      expect(dom.toString()).toBe('<div class="bar"></div>');
+      className = undefined;
+      expect(dom.toString()).toBe('<div></div>');
+    });
   });
 
   describe(Dom.prototype.attribute.name, () => {
@@ -56,6 +66,28 @@ describe(Dom.name, () => {
           })
           .toString(),
       ).toEqual('<a foo="bar" bar="baz"></a>');
+    });
+
+    it('should support deferred attribute (single)', () => {
+      let attrValue: string | undefined = 'foo';
+      const dom = new Dom('div').attribute('data-test', () => attrValue);
+      expect(dom.toString()).toBe('<div data-test="foo"></div>');
+      attrValue = 'bar';
+      expect(dom.toString()).toBe('<div data-test="bar"></div>');
+      attrValue = undefined;
+      expect(dom.toString()).toBe('<div></div>');
+    });
+
+    it('should support deferred attribute (object)', () => {
+      let attrValue: string | undefined = 'foo';
+      const dom = new Dom('div').attribute({
+        'data-test': () => attrValue,
+      });
+      expect(dom.toString()).toBe('<div data-test="foo"></div>');
+      attrValue = 'bar';
+      expect(dom.toString()).toBe('<div data-test="bar"></div>');
+      attrValue = undefined;
+      expect(dom.toString()).toBe('<div></div>');
     });
   });
 

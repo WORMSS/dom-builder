@@ -85,15 +85,19 @@ const anchor = createElement('a')
 
   /**
    * a single attribute key and value, similar to HTMLElement.setAttribute(key, value)
-   * undefined is ignored, empty string sets only the key
+   * undefined is ignored, empty string sets only the key.
+   * Also accepts a callback for deferred value resolution.
    */
   .attribute("data-foo", "value-bar")
   .attribute('data-bar', '')
+  .attribute('data-deferred', () => someValue)
 
   /**
    * a single value class value, similar to HTMLElement.classList.add(value)
+   * Also accepts a callback for deferred value resolution.
    */
   .class('foo')
+  .class(() => someClass)
 
   /**
    * a stylerule setter callback, a chainable version of el.style;

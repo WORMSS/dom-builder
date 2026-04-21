@@ -8,8 +8,8 @@ import { StyleRules } from './StyleRules';
 export class Dom {
   #tagname: string;
   #children: (Dom | string | (() => string | Dom | undefined | null))[] = [];
-  #attributes: Map<string, string> = new Map();
-  #classList: Set<string> = new Set();
+  #attributes: Map<string, string | (() => string | undefined)> = new Map();
+  #classList: Set<string | (() => string | undefined)> = new Set();
   #style = new StyleRules();
 
   /**
@@ -35,20 +35,22 @@ export class Dom {
 
   /**
    * Adds an attribute or multiple attributes to the element.
-   * @param attributes A record of attribute names and values.
+   * @param attributes A record of attribute names and values. Values can be strings or functions that return a string.
    * @returns The current Dom instance for chaining.
    */
-  attribute(attributes: Record<string, string | undefined>): this;
+  attribute(
+    attributes: Record<string, string | (() => string | undefined) | undefined>,
+  ): this;
   /**
    * Adds an attribute to the element.
    * @param name The name of the attribute.
-   * @param value The value of the attribute. If undefined, the attribute is ignored.
+   * @param value The value of the attribute. If undefined, the attribute is ignored. Can be a string or a function that returns a string.
    * @returns The current Dom instance for chaining.
    */
-  attribute(name: string, value: string | undefined): this;
+  attribute(name: string, value: string | (() => string | undefined) | undefined): this;
   attribute(
-    nameOrAttributes: string | Record<string, string | undefined>,
-    value?: string | undefined,
+    nameOrAttributes: string | Record<string, string | (() => string | undefined) | undefined>,
+    value?: string | (() => string | undefined) | undefined,
   ): this {
     if (typeof nameOrAttributes === 'string') {
       const name = nameOrAttributes;
@@ -68,10 +70,14 @@ export class Dom {
 
   /**
    * Adds a class to the element's class list.
-   * @param value The class name to add. If undefined or empty, it's ignored.
+   * @param value The class name to add. If undefined or empty, it's ignored. Can be a string or a function that returns a string.
    * @returns The current Dom instance for chaining.
    */
-  class(value: string | undefined): this {
+  class(value: string | (() => string | undefined) | undefined): this {
+    if (typeof value === 'function') {
+      this.#classList.add(value);
+      return this;
+    }
     value = value?.trim();
     if (value) this.#classList.add(value);
     return this;
@@ -116,10 +122,24 @@ export class Dom {
   protected toStringTagOpener(): string {
     const tagOpener = [
       this.#tagname,
-      ...GenStack.from(this.#attributes.entries()).map(([k, v]) => (v === '' ? k : `${k}="${v}"`)),
+      ...GenStack.from(this.#attributes.entries())
+        .map(([k, v]) => {
+          const val = typeof v === 'function' ? v() : v;
+          if (val === undefined) return undefined;
+          return val === '' ? k : `${k}="${val}"`;
+        })
+        .filterNullUndefined(),
     ];
     if (this.#classList.size) {
-      tagOpener.push(`class="${[...this.#classList].join(' ')}"`);
+      const classes = GenStack.from(this.#classList)
+        .map((c) => (typeof c === 'function' ? c() : c))
+        .filterNullUndefined()
+        .map((c) => c.trim())
+        .filter((c) => c.length > 0)
+        .toArray();
+      if (classes.length) {
+        tagOpener.push(`class="${classes.join(' ')}"`);
+      }
     }
     if (this.#style.length) {
       tagOpener.push(`style="${this.#style.toString()}"`);
