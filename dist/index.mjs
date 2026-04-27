@@ -1,6 +1,5 @@
-Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
-let _wormss_genstack = require("@wormss/genstack");
-let change_case = require("change-case");
+import { GenStack } from "@wormss/genstack";
+import { kebabCase } from "change-case";
 //#region src/StyleUtils.ts
 /**
 * Utility functions for generating CSS values and structures.
@@ -13,7 +12,7 @@ const StyleUtils = {
 	* @returns A linear-gradient CSS string, or an empty string if no colors are provided.
 	*/
 	linearGradiant(dir, ...values) {
-		const colours = _wormss_genstack.GenStack.from(values).filterUndefined().map((s) => s.trim()).filter((s) => !!s).toArray().join(", ");
+		const colours = GenStack.from(values).filterUndefined().map((s) => s.trim()).filter((s) => !!s).toArray().join(", ");
 		if (!colours) return "";
 		return `linear-gradient(${dir}, ${colours})`;
 	},
@@ -23,7 +22,7 @@ const StyleUtils = {
 	* @returns A comma-separated string, or undefined if no valid values are provided.
 	*/
 	list(...values) {
-		const list = _wormss_genstack.GenStack.from(values).filterUndefined().map((s) => s.trim()).filter((s) => !!s).toArray().join(", ");
+		const list = GenStack.from(values).filterUndefined().map((s) => s.trim()).filter((s) => !!s).toArray().join(", ");
 		if (!list) return void 0;
 		return list;
 	},
@@ -36,7 +35,7 @@ const StyleUtils = {
 	* @returns An rgb or rgba CSS string.
 	*/
 	rgb(r, g, b, a) {
-		return `rgb(${_wormss_genstack.GenStack.from([
+		return `rgb(${GenStack.from([
 			r,
 			g,
 			b,
@@ -81,7 +80,7 @@ construct(target) {
 	*/
 get(target, prop, me) {
 		if (typeof prop === "symbol") switch (prop) {
-			case Symbol.iterator: return () => _wormss_genstack.GenStack.from(map.entries()).map(([k, v]) => `${k}: ${v};`);
+			case Symbol.iterator: return () => GenStack.from(map.entries()).map(([k, v]) => `${k}: ${v};`);
 			case Symbol.toStringTag: return target.name;
 			default: return Reflect.get(target, prop);
 		}
@@ -116,7 +115,7 @@ get(target, prop, me) {
 			*/
 			return (value) => {
 				value = value?.trim();
-				if (value) map.set((0, change_case.kebabCase)(prop), value);
+				if (value) map.set(kebabCase(prop), value);
 				return me;
 			};
 		}
@@ -148,7 +147,7 @@ var Dom = class {
 	* @returns The current Dom instance for chaining.
 	*/
 	append(...children) {
-		this.#children.push(..._wormss_genstack.GenStack.from(children).filterNullUndefined());
+		this.#children.push(...GenStack.from(children).filterNullUndefined());
 		return this;
 	}
 	attribute(nameOrAttributes, value) {
@@ -211,13 +210,13 @@ var Dom = class {
 	* @returns The opening tag string (without brackets).
 	*/
 	toStringTagOpener() {
-		const tagOpener = [this.#tagname, ..._wormss_genstack.GenStack.from(this.#attributes.entries()).map(([k, v]) => {
+		const tagOpener = [this.#tagname, ...GenStack.from(this.#attributes.entries()).map(([k, v]) => {
 			const val = typeof v === "function" ? v() : v;
 			if (val === void 0) return void 0;
 			return val === "" ? k : `${k}="${val}"`;
 		}).filterNullUndefined()];
 		if (this.#classList.size) {
-			const classes = _wormss_genstack.GenStack.from(this.#classList).map((c) => typeof c === "function" ? c() : c).filterNullUndefined().map((c) => c.trim()).filter((c) => c.length > 0).toArray();
+			const classes = GenStack.from(this.#classList).map((c) => typeof c === "function" ? c() : c).filterNullUndefined().map((c) => c.trim()).filter((c) => c.length > 0).toArray();
 			if (classes.length) tagOpener.push(`class="${classes.join(" ")}"`);
 		}
 		if (this.#style.length) tagOpener.push(`style="${this.#style.toString()}"`);
@@ -274,14 +273,14 @@ var Style = class extends Dom {
 	* Returns the number of non-empty stylesheet rules defined.
 	*/
 	get length() {
-		return _wormss_genstack.GenStack.from(this.#stylesheets.values()).filter((s) => s.length > 0).toArray().length;
+		return GenStack.from(this.#stylesheets.values()).filter((s) => s.length > 0).toArray().length;
 	}
 	/**
 	* Generates the CSS string for all rules managed by this style element.
 	* @returns The complete CSS string.
 	*/
 	toStringStylesheet() {
-		return [..._wormss_genstack.GenStack.from(this.#stylesheets.entries()).filter(([_, style]) => style.length).map(([key, style]) => `${key} { ${style.toString()} }`)].join(" ");
+		return [...GenStack.from(this.#stylesheets.entries()).filter(([_, style]) => style.length).map(([key, style]) => `${key} { ${style.toString()} }`)].join(" ");
 	}
 	/**
 	* Combines children and the generated stylesheet string.
@@ -389,7 +388,4 @@ function createScript(func, ...data) {
 	return createElement("script").append(`(${func.toString()})(${args});`);
 }
 //#endregion
-exports.StyleUtils = StyleUtils;
-exports.createElement = createElement;
-exports.createHtml = createHtml;
-exports.createScript = createScript;
+export { StyleUtils, createElement, createHtml, createScript };
