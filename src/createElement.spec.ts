@@ -1,4 +1,4 @@
-import { createElement } from './index';
+import { createElement } from './index.js';
 import { expect, describe, it } from 'vitest';
 
 describe(createElement.name, () => {

@@ -1,8 +1,8 @@
-import { Dom } from './Dom';
-import type { StyleRulesKeys } from './StyleRules';
-import { StyleRules } from './StyleRules';
-import { Style } from './Style';
-import { createElement } from './createElement';
+import { Dom } from './Dom.js';
+import type { StyleRulesKeys } from './StyleRules.js';
+import { StyleRules } from './StyleRules.js';
+import { Style } from './Style.js';
+import { createElement } from './createElement.js';
 
 /**
  * Represents the top-level HTML document structure.

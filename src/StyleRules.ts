@@ -1,6 +1,6 @@
 import { GenStack } from '@wormss/genstack';
 import { kebabCase } from 'change-case';
-import { StyleUtils } from './StyleUtils';
+import { StyleUtils } from './StyleUtils.js';
 
 /**
  * Valid CSS property names derived from CSSStyleDeclaration.

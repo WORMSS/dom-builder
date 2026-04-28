@@ -1,4 +1,4 @@
-import { Dom } from './Dom';
+import { Dom } from './Dom.js';
 
 /**
  * Factory function to create a new Dom instance with the specified tag name.

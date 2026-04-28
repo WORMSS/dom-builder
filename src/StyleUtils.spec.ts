@@ -1,5 +1,5 @@
 import { expect, describe, it } from 'vitest';
-import { StyleUtils } from './index';
+import { StyleUtils } from './index.js';
 
 describe('StyleUtils', () => {
   describe(StyleUtils.linearGradiant.name, () => {

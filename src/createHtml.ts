@@ -1,5 +1,5 @@
-import { Html } from './Html';
-import { createElement } from './createElement';
+import { Html } from './Html.js';
+import { createElement } from './createElement.js';
 
 /**
  * Options for configuring a new HTML document.

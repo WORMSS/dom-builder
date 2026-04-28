@@ -1,6 +1,6 @@
-import { Dom } from './Dom';
-import type { StyleRulesKeys } from './StyleRules';
-import { StyleRules } from './StyleRules';
+import { Dom } from './Dom.js';
+import type { StyleRulesKeys } from './StyleRules.js';
+import { StyleRules } from './StyleRules.js';
 import { GenStack } from '@wormss/genstack';
 
 type SetterEntry = [key: StyleRulesKeys, value: string | undefined];

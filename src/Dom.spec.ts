@@ -1,4 +1,4 @@
-import { Dom } from './Dom';
+import { Dom } from './Dom.js';
 import { expect, describe, it } from 'vitest';
 
 describe(Dom.name, () => {

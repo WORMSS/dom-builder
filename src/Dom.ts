@@ -1,5 +1,5 @@
 import { GenStack } from '@wormss/genstack';
-import { StyleRules } from './StyleRules';
+import { StyleRules } from './StyleRules.js';
 
 /**
  * Represents a DOM element and provides a chainable API for building its structure,

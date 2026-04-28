@@ -1,4 +1,4 @@
-import { Html } from './Html';
+import { Html } from './Html.js';
 import { expect, describe, it } from 'vitest';
 
 describe(Html.name, () => {

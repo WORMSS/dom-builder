@@ -1,5 +1,5 @@
-import { createElement } from './createElement';
-import type { Dom } from './Dom';
+import { createElement } from './createElement.js';
+import type { Dom } from './Dom.js';
 
 /**
  * Primitive JSON-serializable types.
