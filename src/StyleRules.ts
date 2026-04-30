@@ -67,7 +67,7 @@ export const StyleRules = new Proxy(function StyleRules() {} as unknown as Style
       /**
        * Dynamically handles method calls for CSS properties and other built-in properties.
        */
-      get(target, prop, me) {
+      get(target, prop, me: StyleRules) {
         if (typeof prop === 'symbol')
           switch (prop) {
             case Symbol.iterator:
