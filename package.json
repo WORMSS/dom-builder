@@ -6,6 +6,10 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
   "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
@@ -16,18 +20,31 @@
   "scripts": {
     "test": "vitest run --reporter verbose",
     "prepublishOnly": "npm run build",
-    "build": "tsdown"
+    "build": "tsdown",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ."
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/WORMSS/dom-builder.git"
   },
   "keywords": [
-    "build",
     "dom",
+    "html",
+    "builder",
+    "fluent",
+    "chainable",
+    "typescript",
+    "node",
+    "browser",
+    "template",
+    "generator",
+    "css",
+    "style",
+    "attributes",
     "structure",
-    "in",
-    "chains"
+    "web"
   ],
   "author": "Colin Richardson <wormssmail@gmail.com>",
   "license": "ISC",
@@ -40,11 +57,20 @@
     "dist"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "devDependencies": {
+    "@changesets/cli": "^2.31.0",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.2.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.5.0",
+    "prettier": "^3.8.3",
     "tsdown": "^0.21.10",
     "typescript": "^5.9.3",
+    "typescript-eslint": "^8.59.1",
     "vitest": "^4.0.18"
   },
   "dependencies": {
