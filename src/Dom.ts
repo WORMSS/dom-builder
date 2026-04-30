@@ -38,9 +38,7 @@ export class Dom {
    * @param attributes A record of attribute names and values. Values can be strings or functions that return a string.
    * @returns The current Dom instance for chaining.
    */
-  attribute(
-    attributes: Record<string, string | (() => string | undefined) | undefined>,
-  ): this;
+  attribute(attributes: Record<string, string | (() => string | undefined) | undefined>): this;
   /**
    * Adds an attribute to the element.
    * @param name The name of the attribute.
